@@ -3,26 +3,28 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
      Scanner sc = new Scanner(System.in);
-     String N =sc.nextLine();
-     int count_1=0;
-     int count_0=0;
-
-        if(N.charAt(0)=='0')
-            count_0++;
-        else
-            count_1++;
-
-     for(int i=1; i<N.length(); i++){
-         if(N.charAt(i-1)!=N.charAt(i)) {
-             if (N.charAt(i)=='0'){
-                 count_0++;
-             }
-             if (N.charAt(i)=='1'){
-                 count_1++;
-             }
+     int i=0;
+     while(true){
+         int L=sc.nextInt();
+         int P=sc.nextInt();
+         int V=sc.nextInt();
+         if(L==0 && P == 0 && V == 0){
+             break;
          }
+
+         int div=V/P;
+         int per=V%P;
+         int re = 0;
+
+         if(per>L){
+            re = L;
+         }
+         else
+             re = per;
+
+         re += div*L;
+         System.out.println("Case"+" "+ ++i +": "+re);
      }
-        System.out.println(Math.min(count_1,count_0));
 
     }
 }
