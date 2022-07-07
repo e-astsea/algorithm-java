@@ -60,7 +60,7 @@ public class G1202 {
                 result += pq.poll();
             }
         }
-        System.out.println(result);
+        System.out.println(result );
     }
 
 }
