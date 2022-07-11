@@ -29,5 +29,4 @@ public class G2437 {
         System.out.println(result+1);
     }
 
-
 }
