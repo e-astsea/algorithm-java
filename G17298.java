@@ -8,7 +8,6 @@ import java.util.StringTokenizer;
 public class G17298 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuffer sb = new StringBuffer();
         String str = br.readLine();
         int N = Integer.parseInt(str);
         str = br.readLine();
@@ -33,9 +32,12 @@ public class G17298 {
             int a = stack.pop();
             ans[a]=-1;
         }
-        for(int i=0; i<N; i++){
-            System.out.print(ans[i]+" ");
+
+        StringBuilder sb = new StringBuilder();
+        for(int j =0; j<N; j++) {
+            sb.append(ans[j]).append(' ');
         }
+        System.out.println(sb);
 
     }
 }
