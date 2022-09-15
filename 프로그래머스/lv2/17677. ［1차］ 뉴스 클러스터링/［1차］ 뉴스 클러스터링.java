@@ -32,8 +32,8 @@ class Solution {
         
         boolean[] bl1 = new boolean[al1.size()];
         boolean[] bl2 = new boolean[al2.size()];
-        Collections.sort(al1);
-        Collections.sort(al2);
+        //Collections.sort(al1);
+        //Collections.sort(al2);
         int inter=0;
         
         for(int i=0; i<al1.size(); i++){
