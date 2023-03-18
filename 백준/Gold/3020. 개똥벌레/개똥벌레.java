@@ -1,16 +1,17 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 
     static int N, H;
+
     public static void main(String[] args) throws Exception {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
-        String[] input = br.readLine().split(" ");
-        N = Integer.parseInt(input[0]);
-        H = Integer.parseInt(input[1]);
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        H = Integer.parseInt(st.nextToken());
 
         int[] bot = new int[H + 2];
         int[] top = new int[H + 2];
@@ -22,28 +23,19 @@ public class Main {
 
         for (int i = 1; i <= H; i++) {
             bot[i] += bot[i - 1];
-        }
-
-        for (int i = H; i >= 1; i--) {
-            top[i] += top[i + 1];
+            top[H + 1 - i] += top[H + 2 - i];
         }
 
         int min = N;
         int cnt = 0;
-
         for (int i = 1; i <= H; i++) {
             int obs = (bot[H] - bot[i - 1]) + (top[1] - top[i + 1]);
-
             if (obs < min) {
                 min = obs;
                 cnt = 1;
             } else if (obs == min)
                 cnt++;
         }
-
-        bw.write(min + " " + cnt + "\n");
-        bw.flush();
-
+        System.out.println(min + " " + cnt);
     }
-
 }
