@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -37,9 +38,6 @@ public class Main {
     private static int dfs(int x, int y) {
         if(x == N-1 && y == M-1){
             return 1;
-        }
-        if(visit[x][y] != -1){
-            return visit[x][y];
         }
 
         if(visit[x][y] == -1){
