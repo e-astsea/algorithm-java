@@ -1,46 +1,48 @@
+import java.util.*;
 class Solution {
     public String[] solution(int n, int[] arr1, int[] arr2) {
-        int[][] arr = new int[n][n];
-        
-        for(int i=0; i<arr1.length; i++){
-            String binary = Integer.toBinaryString(arr1[i]);
-            if(binary.length()<n){
-                while(binary.length()<n){
-                    binary = "0"+binary;
-                }
-            }
-            for(int j=0; j<binary.length(); j++){
-                if(binary.charAt(j)=='1')
-                    arr[i][j]=1; 
-            }
-        }
-        for(int i=0; i<arr2.length; i++){
-            String binary = Integer.toBinaryString(arr2[i]);
-            if(binary.length()<n){
-                while(binary.length()<n){
-                    binary = "0"+binary;
-                }
-            }
-            for(int j=0; j<binary.length(); j++){
-                if(binary.charAt(j)=='1')
-                    arr[i][j]=1; 
-            }
-        }
-        
         String[] answer = new String[n];
-        for(int i=0; i<n; i++){
-            String str="";
-            for(int j=0; j<arr[i].length; j++){
-                if(arr[i][j]==1){
-                    str = str+"#";
+        List<List<Integer>> new1 = new ArrayList<>();
+        List<List<Integer>> new2 = new ArrayList<>();
+        List<List<Boolean>> newMap = new ArrayList<>();
+
+        for(int i=0; i<arr1.length; i++){
+            new1.add(calc(n,arr1[i]));
+        }
+        
+        for(int i=0; i<arr2.length; i++){
+            new2.add(calc(n,arr2[i]));
+        }
+        
+        for(int j=0; j<n; j++){
+            String map = "";
+            for (int k=0; k<n; k++){
+                if((new1.get(j).get(k) == 0) && (new2.get(j).get(k) == 0)){
+                    map= map+" ";
                 }
-                if(arr[i][j]==0 ){
-                    str = str+ " ";
+                else{
+                    map = map+"#";
                 }
             }
-            answer[i]=(str);
+            answer[j] = map;
         }
         
         return answer;
+    }
+    
+    public List<Integer> calc(int n, int num){
+        List<Integer> temp = new ArrayList<>();
+        while(num>0){
+            int tmp = num%2;
+            num/=2;
+            temp.add(tmp);
+        }
+        
+        while(temp.size() != n){
+            temp.add(0);
+        }
+        
+        Collections.reverse(temp);
+        return temp;
     }
 }
