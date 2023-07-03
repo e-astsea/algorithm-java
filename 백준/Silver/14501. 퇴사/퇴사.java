@@ -1,42 +1,39 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
-class pair{
-    int t;
-    int p;
-    pair(int t, int p){
-        this.t = t;
-        this.p =p;
-    }
-}
-public class Main{
-    public static void main(String[] args)throws IOException {
+public class Main {
+    public static int N;
+    public static int[][] tmp;
+    public static int result;
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String str = br.readLine();
-        int N = Integer.parseInt(str);
-        ArrayList<pair> al = new ArrayList<>();
-        int []arr=new int[N+1];
-        for(int i=0; i<N; i++){
-        str = br.readLine();
-        StringTokenizer st = new StringTokenizer(str);
-        int t = Integer.parseInt(st.nextToken());
-        int p = Integer.parseInt(st.nextToken());
-        al.add(new pair(t,p));
-        }
 
-        for(int i=N-1; i>=0; i--){
-            pair tmp = al.remove(i);
-            if(i+tmp.t>N){
-                arr[i]=arr[i+1];
-            }
-            else {
-                arr[i]=Math.max(arr[i+1],tmp.p+arr[i+tmp.t]);
-            }
+        N = Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        tmp = new int[N][2];
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            int t = Integer.parseInt(st.nextToken());
+            int p = Integer.parseInt(st.nextToken());
+            tmp[i][0] = t;
+            tmp[i][1] = p;
         }
-        System.out.println(arr[0]);
+        result = 0;
+        dfs(0,0);
+        System.out.println(result);
+    }
+    public static void dfs(int day, int answer){
+        if(day >= N){
+            result = Math.max(result, answer);
+            return;
+        }
+        if(day + tmp[day][0] <= N) {
+            dfs(day + tmp[day][0], answer + tmp[day][1]);
+        }
+        dfs(day+1, answer);
+
+
     }
 }
