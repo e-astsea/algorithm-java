@@ -1,65 +1,47 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.StringTokenizer;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        Stack<Character> stack = new Stack<>();
+        StringBuffer sb = new StringBuffer();
+        StringTokenizer st;
 
-        while(true) {
-            String str = br.readLine();
-            boolean flag=true;
+        while(true){
+            final String str = br.readLine();
+            final Deque<Character> q = new ArrayDeque<>();
             if(str.equals(".")){
                 break;
             }
-
-            for(int i=0; i<str.length()-1; i++){
-                if(str.charAt(i)=='('){
-                    stack.push(str.charAt(i));
+            for (int i = 0; i < str.length(); i++) {
+                if(str.charAt(i) == '(' || str.charAt(i) == '['){
+                    q.addLast(str.charAt(i));
                 }
-                else if(str.charAt(i)==')'){
-                    if(stack.isEmpty()){
-                        flag=false;
-                        break;
+                if(str.charAt(i) == ')') {
+                    if (q.size() > 0 && q.peekLast() == '('){
+                        q.pollLast();
+                    } else {
+                        q.addLast(str.charAt(i));
                     }
-                    if(stack.peek()!='('){
-                        flag=false;
-                        break;
-                    }
-                    else
-                        stack.pop();
                 }
-                if(str.charAt(i)=='['){
-                    stack.push(str.charAt(i));
-                }
-                else if(str.charAt(i)==']'){
-                    if(stack.isEmpty()){
-                        flag=false;
-                        break;
+                if(str.charAt(i) == ']') {
+                    if (q.size() > 0 && q.peekLast() == '['){
+                        q.pollLast();
+                    } else{
+                        q.addLast(str.charAt(i));
                     }
-                    if(stack.peek()!='['){
-                        flag=false;
-                        break;
-                    }
-                    else
-                        stack.pop();
                 }
             }
 
-            if(!stack.isEmpty()){
-                flag=false;
-            }
-            if(flag){
+            if(q.size() == 0){
                 System.out.println("yes");
-            }
-            else
+            } else{
                 System.out.println("no");
-            stack.clear();
+            }
         }
-
     }
-
 }
