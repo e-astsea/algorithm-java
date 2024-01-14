@@ -1,75 +1,60 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int[][] tree;
-
+    static boolean[] checked;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        final int num = Integer.parseInt(br.readLine());
+        int N = Integer.parseInt(br.readLine());
 
-        tree = new int[26][2];
-
-        for (int i = 0; i < num; i++) {
+        List<List<String>> ls = new ArrayList<>();
+        for (int i = 0; i <= N; i++) {
+            ls.add(new ArrayList<>());
+        }
+        for (int i = 1; i <= N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-
-            int parent = st.nextToken().charAt(0) - 65;
-            String left = st.nextToken();
-            String right = st.nextToken();
-
-            if (left.equals(".")) {
-                tree[parent][0] = -1;
-            } else{
-                tree[parent][0] = left.charAt(0) - 65;
-            }
-
-            if (right.equals(".")) {
-                tree[parent][1] = -1;
-            } else{
-                tree[parent][1] = right.charAt(0) - 65;
-            }
+            final String parent = st.nextToken();
+            ls.get(parent.charAt(0)-65).add(st.nextToken());
+            ls.get(parent.charAt(0)-65).add(st.nextToken());
         }
-
-        preOrder(0);
-        System.out.println("");
-        inOrder(0);
-        System.out.println("");
-        lastOrder(0);
+        preOrder(ls,0);
+        System.out.println();
+        inOrder(ls,0);
+        System.out.println();
+        lastOrder(ls,0);
     }
 
-
-    private static void preOrder(final int root) {
-        System.out.print((char)(root+65));
-        if(tree[root][0] != -1){
-            preOrder(tree[root][0]);
+    private static void preOrder(List<List<String>> ls, int start) {
+        System.out.print((char)(start+65));
+        if(ls.get(start).get(0).charAt(0) != '.'){
+            preOrder(ls,ls.get(start).get(0).charAt(0)-65);
         }
-
-        if(tree[root][1] != -1){
-            preOrder(tree[root][1]);
+        if(ls.get(start).get(1).charAt(0) != '.'){
+            preOrder(ls,ls.get(start).get(1).charAt(0)-65);
         }
     }
 
-    private static void inOrder(final int root) {
-        if(tree[root][0] != -1){
-            inOrder(tree[root][0]);
+    private static void inOrder(List<List<String>> ls, int start) {
+        if(ls.get(start).get(0).charAt(0) != '.'){
+            inOrder(ls,ls.get(start).get(0).charAt(0)-65);
         }
-        System.out.print((char)(root+65));
-
-        if(tree[root][1] != -1){
-            inOrder(tree[root][1]);
+        System.out.print((char)(start+65));
+        if(ls.get(start).get(1).charAt(0) != '.'){
+            inOrder(ls,ls.get(start).get(1).charAt(0)-65);
         }
     }
 
-    private static void lastOrder(final int root) {
-        if(tree[root][0] != -1){
-            lastOrder(tree[root][0]);
+    private static void lastOrder(List<List<String>> ls, int start) {
+        if(ls.get(start).get(0).charAt(0) != '.'){
+            lastOrder(ls,ls.get(start).get(0).charAt(0)-65);
         }
-
-        if(tree[root][1] != -1){
-            lastOrder(tree[root][1]);
+        if(ls.get(start).get(1).charAt(0) != '.'){
+            lastOrder(ls,ls.get(start).get(1).charAt(0)-65);
         }
-        System.out.print((char)(root+65));
+        System.out.print((char)(start+65));
     }
 }
