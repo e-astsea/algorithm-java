@@ -6,50 +6,50 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int answer = 0;
-    static int del,N;
-    static List<List<Integer>> ls;
+    static boolean[] checked;
+    static int count = 0;
+    static int delNode = -1;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+        int N = Integer.parseInt(br.readLine());
 
-        N = Integer.parseInt(br.readLine());
-
-        ls = new ArrayList<>();
-        for (int i = 0; i <= N; i++) {
+        List<List<Integer>> ls = new ArrayList<>();
+        checked = new boolean[N];
+        for (int i = 0; i < N; i++) {
             ls.add(new ArrayList<>());
         }
-        int root = -1;
-        st = new StringTokenizer(br.readLine());
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int root = 0;
         for (int i = 0; i < N; i++) {
             final int node = Integer.parseInt(st.nextToken());
-            if(node==-1){
-                root = i;
-            }else {
+            if(node != -1){
                 ls.get(node).add(i);
+            } else{
+                root = i;
             }
         }
-        del = Integer.parseInt(br.readLine());
-        if(del == root){
-            System.out.println(0);
-            return;
-        }
-        dfs(root);
 
-        System.out.println(answer);
+        delNode = Integer.parseInt(br.readLine());
+        checked[delNode]=true;
+        dfs(ls,root);
+        if(delNode==root){
+            System.out.println("0");
+        } else {
+            System.out.println(count);
+        }
     }
 
-    private static void dfs(int now) {
-        int nodes = 0;
-        for (int i = 0; i < ls.get(now).size(); i++) {
-            int next = ls.get(now).get(i);
-            if(next != del) {
-                nodes++;
-                dfs(next);
-            }
+    private static void dfs(List<List<Integer>> ls, int now) {
+        if((ls.get(now).size()==0)|| (ls.get(now).size()==1&& ls.get(now).get(0) == delNode)){
+            count++;
         }
-        if(nodes == 0){
-            answer++;
+        checked[now] = true;
+        for (int i = 0; i < ls.get(now).size(); i++) {
+            if(checked[ls.get(now).get(i)]){
+                continue;
+            }
+            dfs(ls,ls.get(now).get(i));
         }
     }
 }
