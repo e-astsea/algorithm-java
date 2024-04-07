@@ -4,36 +4,52 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static int N;
-    public static int[][] tmp;
-    public static int result;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
 
-        N = Integer.parseInt(br.readLine());
+        int[][] arr = new int[N][2];
         StringTokenizer st;
-        tmp = new int[N][2];
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            int t = Integer.parseInt(st.nextToken());
-            int p = Integer.parseInt(st.nextToken());
-            tmp[i][0] = t;
-            tmp[i][1] = p;
+            arr[i][0]=Integer.parseInt(st.nextToken());
+            arr[i][1]=Integer.parseInt(st.nextToken());
         }
-        result = 0;
-        dfs(0,0);
-        System.out.println(result);
-    }
-    public static void dfs(int day, int answer){
-        if(day >= N){
-            result = Math.max(result, answer);
-            return;
+
+        int[] result = new int[N+1];
+        for (int i = 0; i < N; i++) {
+            int nowMax = arr[i][1] + result[i];
+            int nextIndex = i+arr[i][0];
+            if(nextIndex<=N){
+                result[nextIndex] = Math.max(result[nextIndex],nowMax);
+                for (int j = nextIndex; j < N; j++) {
+                    result[j] = Math.max(result[nextIndex],result[j]);
+                }
+            }
         }
-        if(day + tmp[day][0] <= N) {
-            dfs(day + tmp[day][0], answer + tmp[day][1]);
+//        for (int i = 0; i <=N; i++) {
+//            System.out.println(result[i]);
+//        }
+
+        int maxAnswer = 0;
+        for (int i = 0; i <= N; i++) {
+            maxAnswer = Math.max(maxAnswer,result[i]);
         }
-        dfs(day+1, answer);
+        System.out.println(maxAnswer);
 
 
     }
+    /*
+    dp[1] =
+    dp[2] =
+    dp[3] =
+    dp[4] =
+    dp[5] = 50
+    dp[6] = 50
+    dp[7] = 50
+    dp[8] = 50
+    dp[9] = 50
+    dp[10] = 50
+
+     */
 }
